@@ -24,6 +24,10 @@ def show_page2():
     page1.pack_forget()
     page2.pack(expand=True)
 
+def update_label():
+    label.config(text="button clicked")
+    
+
 frame1 = Frame(page1)
 frame1.pack(expand=True, fill='both', side='top')
 frame2 = Frame(page1, pady=20)
@@ -34,7 +38,7 @@ label = Label(frame1, text="Anki Flashcards", font=fontL, fg='blue', bg='white')
 label.pack(expand=True, anchor='center')
 
 # Create a button widget
-button1 = Button(frame2, text="Let's Start", font=fontM,command=show_page2)
+button1 = Button(frame2, text="Let's Start", font=fontM,command=update_label)
 button1.pack(expand=True, anchor='center')
 
 button2 = Button(frame2, text="Add To Database", font=fontM,command=show_page2)
@@ -48,8 +52,8 @@ frame2 = Frame(page2)
 frame2.pack(expand=True)
 
 # Create a label widget
-label = Label(frame2, text="page 2")
-label.pack(expand=True)
+label2 = Label(frame2, text="page 2")
+label2.pack(expand=True)
 
 # Create a button widget
 button = Button(frame2, text="Go Back", command=show_page1)

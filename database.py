@@ -64,8 +64,20 @@ class Database:
         else:
             raise Exception("Data is empty")
     
-    def fetch_sorted(self):
+    def fetch_reverse_sorted(self, limit=None):
         if self.data:
-            return sorted(self.data, key=lambda x: x['score'])[::-1]
+            if limit:
+                return sorted(self.data, key=lambda x: x['score'])[::-1][:limit]
+            else:
+                return sorted(self.data, key=lambda x: x['score'])[::-1]
+        else:
+            raise Exception("Data is empty")
+
+    def fetch_sorted(self, limit=None):
+        if self.data:
+            if limit:
+                return sorted(self.data, key=lambda x: x['score'])[:limit]
+            else:
+                return sorted(self.data, key=lambda x: x['score'])
         else:
             raise Exception("Data is empty")
