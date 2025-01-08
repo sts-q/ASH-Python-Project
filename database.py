@@ -1,5 +1,5 @@
 import json
-# import random
+import random
 class Database:
     def __init__(self, filename):
         self.filename = filename
@@ -79,5 +79,14 @@ class Database:
                 return sorted(self.data, key=lambda x: x['score'])[:limit]
             else:
                 return sorted(self.data, key=lambda x: x['score'])
+        else:
+            raise Exception("Data is empty")
+
+    def fetch_random(self, limit=None):
+        if self.data:
+            if limit:
+                return random.sample(self.data, limit)
+            else:
+                return random.sample(self.data, len(self.data))
         else:
             raise Exception("Data is empty")
