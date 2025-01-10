@@ -1,6 +1,17 @@
 # beolingus.py  --  Get additional info from Beolingus dictionary.
 
 
+###############################################################################
+# For the wordlist used by this python file the following copyrights hold:
+#
+# Copyright (c) :: Frank Richter <frank.richter.tu-chemnitz.de>,
+# 1995 - 2024
+# License :: GPL Version 2 or later; GNU General Public License
+# URL :: https://dict.tu-chemnitz.de/
+#
+###############################################################################
+
+
 # in order to try this out from Linux command line see 'def main()' and say:
 #     python beolingus.py
 
