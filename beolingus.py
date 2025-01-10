@@ -156,11 +156,14 @@ class Beolingus:
         if ignorecase: flags += re.IGNORECASE
         r = re.compile (pattern, flags)
         res = ""
+        print ("searching...")
         for deen in self.dict:
             if    (de and self.is_match (r, deen[0]))   \
                or (en and self.is_match (r, deen[1])):
                 res += self.show_entry (deen)
+        print ("...!")
         return res
+
 
 
     def info (self, word, de=True, en=True, first=False, apart=False, ignorecase=True):

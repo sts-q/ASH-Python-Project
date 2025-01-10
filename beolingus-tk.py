@@ -2,21 +2,26 @@
 
 
 # TODO
-# * make keyword-args for dict.show_query(...)
 # * a lot
 
 
 import tkinter
+import tkinter.scrolledtext
 
 from beolingus import Beolingus
 
-entry_font   = ("Courier",         16, "normal")
+win_width    = 500
+win_height   = 600
+entry_font   = ("Courier",         18, "normal")
 button_font  = ("Arial",           18, "bold")
 message_font = ("Times New Roman", 16, "normal")
+text_box_font= ("Times New Roman", 16, "normal")
 
-dict = Beolingus()
-word_hist = ["Desire", "Netzpython"]
+dict            = Beolingus()
+word_hist       = ["Anaconda", "Desire", "Netzpython"]
 word_hist_index = 0
+ignore_case     = True
+
 
 def w_next():
     global word_hist_index
@@ -35,16 +40,46 @@ def w_prev():
 def w_insert (word):
     word_hist.append (word)
 
-def go():
-    word = word_entry.get()
-    print (word)
+def get_word (entry):
+    word = entry.get()
     w_insert (word)
-    res = dict.show_query (word, True, True, True, True, False)
-    print (res)
-    message_box["text"] = res
+    return word
+
+
+def text_box_say (widget, mess):
+    widget.delete ("1.0","end")
+    widget.insert ("insert", mess)
+
+
+def go_fiap():
+    word = get_word (word_entry)
+    res = dict.show_query (word, True, True,   True, True, ignore_case)
+    text_box_say (text_box, res)
+
+def go_first():
+    word = get_word (word_entry)
+    res = dict.show_query (word, True, True,   True, False, ignore_case)
+    text_box_say (text_box, res)
+
+def go_apart():
+    word = get_word (word_entry)
+    res = dict.show_query (word, True, True, False, True, ignore_case)
+    text_box_say (text_box, res)
+
+def go_any():
+    word = get_word (word_entry)
+    res = dict.show_query (word, True, True, False, False, ignore_case)
+    text_box_say (text_box, res)
+
+def toggle_case():
+    global ignore_case
+    ignore_case = not ignore_case
+    if ignore_case:
+        case_button["text"] = "_case_"
+    else: case_button["text"] = "+CASE+"
 
 def go_on_return (event):
-    go()
+    go_any()
 
 def set_entry_text (e, text):
     e.delete (0,"end")
@@ -66,22 +101,36 @@ def halt():
 
 win = tkinter.Tk()
 win.title ("ASH  beo test&try")
-win.minsize (width=600, height=400)
+win.minsize (width=win_width, height=win_height)
 
-quit_button = tkinter.Button (text="Quit", command=halt, font=button_font)
-quit_button.pack()
+bf = tkinter.Frame(win)
+bf.pack (side="top", fill="x")
+quit_button          = tkinter.Button (bf, text="Quit",   command=halt,        font=button_font)
+go_any_button        = tkinter.Button (bf, text="Any",    command=go_any,      font=button_font)
+go_fiap_button       = tkinter.Button (bf, text="Fiap",   command=go_fiap,     font=button_font)
+go_first_button      = tkinter.Button (bf, text="First",  command=go_first,    font=button_font)
+go_apart_button      = tkinter.Button (bf, text="Apart",  command=go_apart,    font=button_font)
+case_button          = tkinter.Button (bf, text="_case_", command=toggle_case, font=button_font)
 
-go_button = tkinter.Button (text="GO", command=go, font=button_font)
-go_button.pack()
 
-word_entry = tkinter.Entry (width=30, font=entry_font)
+quit_button.pack (side="left", anchor="n", fill="x")
+case_button.pack (side="left", anchor="n", fill="x")
+
+go_any_button.pack (side="right", anchor="n", fill="x")
+go_apart_button.pack (side="right", anchor="n", fill="x")
+go_first_button.pack (side="right", anchor="n", fill="x")
+go_fiap_button.pack (side="right", anchor="n", fill="x")
+
+word_entry = tkinter.Entry (width=32, font=entry_font)
+set_entry_text (word_entry, word_hist[word_hist_index])
 word_entry.bind ("<Return>", go_on_return)
 word_entry.bind ("<Up>",     entry_up)
 word_entry.bind ("<Down>",   entry_down)
-word_entry.pack()
+word_entry.pack(side="top", anchor="w")
 
-message_box = tkinter.Message(text="<no-text-so-far>", font=message_font)
-message_box.pack()
+text_box = tkinter.scrolledtext.ScrolledText (font=text_box_font)
+text_box.pack(fill="both", expand=True)
+text_box.insert  ("insert", "Nothing to say...")
 
 
 def main():
