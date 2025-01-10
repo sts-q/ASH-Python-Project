@@ -80,7 +80,7 @@ word_entry.bind ("<Up>",     entry_up)
 word_entry.bind ("<Down>",   entry_down)
 word_entry.pack()
 
-message_box = tkinter.Message(text="<no-text-so-far>", font=("Times New Roman",16,"bold"))
+message_box = tkinter.Message(text="<no-text-so-far>", font=message_font)
 message_box.pack()
 
 
