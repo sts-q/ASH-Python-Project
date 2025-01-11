@@ -2,12 +2,12 @@ from tkinter import *
 from tkinter import ttk, font as tkFont
 from tkextrafont import Font
 import random
-from database import Database  # Assuming a Database class exists to manage the data
+from database import Database
 
 db = Database("temp_dataset.json")  # Use your dataset here
 
 root = Tk()
-root.title("German Vocabulary Game")
+root.title("Anki Flashcards")
 root.geometry("500x400")
 root.minsize(200, 150)
 
@@ -63,10 +63,10 @@ def check_answer(selected_option):
 
     if selected_option == current_card['English']:  # Check against the correct answer (English meaning)
         feedback_label.config(text="Congratulations, Correct Answer", fg="green")
-        db.update_score(current_card['id'], increment=1)  # Increment score by 1 for correct answer
+        db.update_score(current_card['id'], score=1)  # Increment score by 1 for correct answer
     else:
         feedback_label.config(text="Wrong Answer. Try Again!", fg="red")
-        db.update_score(current_card['id'], increment=-1)  # Decrement score by 1 for wrong answer
+        db.update_score(current_card['id'], score=-1)  # Decrement score by 1 for wrong answer
 
     # Delay before loading the next card
     root.after(1000, load_next_card)  # 1 second delay before loading the next card
@@ -88,14 +88,15 @@ button_exit = Button(frame_main_bottom, text="Exit", font=fontM, command=root.qu
 button_exit.pack(expand=True, anchor='center')
 
 # Game Page
+# Game Page
 frame_game_top = Frame(page_game)
-frame_game_top.pack(expand=True, fill='both', side='top')
+frame_game_top.pack(expand=True, fill='both')
 
 frame_game_middle = Frame(page_game, pady=20)
-frame_game_middle.pack(expand=True, fill='both', side='middle')
+frame_game_middle.pack(expand=True, fill='both')
 
 frame_game_bottom = Frame(page_game, pady=20)
-frame_game_bottom.pack(expand=True, fill='both', side='bottom')
+frame_game_bottom.pack(expand=True, fill='both')
 
 word_label = Label(frame_game_top, text="", font=fontL, fg='black')
 word_label.pack(expand=True, anchor='center')
