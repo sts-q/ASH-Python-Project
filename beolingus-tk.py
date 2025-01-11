@@ -3,15 +3,21 @@
 
 # TODO
 # * a lot
+# parse config (ini)
 
-
+import configparser
 import tkinter
 import tkinter.scrolledtext
 
 from beolingus import Beolingus
 
-win_width    = 500
-win_height   = 600
+win_title      = "ASHcards beoDict"
+win_width      = 1250
+win_height     = 350
+win_xpos       = 1300
+win_ypos       =  420
+win_width_min  = 600
+win_height_min = 150
 entry_font   = ("Courier",         18, "normal")
 button_font  = ("Arial",           18, "bold")
 message_font = ("Times New Roman", 16, "normal")
@@ -100,8 +106,9 @@ def halt():
     quit()
 
 win = tkinter.Tk()
-win.title ("ASH  beo test&try")
-win.minsize (width=win_width, height=win_height)
+win.title (win_title)
+win.geometry (f"{win_width}x{win_height}+{win_xpos}+{win_ypos}")
+win.minsize (width=win_width_min, height=win_height_min)
 
 bf = tkinter.Frame(win)
 bf.pack (side="top", fill="x")
@@ -129,8 +136,8 @@ word_entry.bind ("<Down>",   entry_down)
 word_entry.pack(side="top", anchor="w")
 
 text_box = tkinter.scrolledtext.ScrolledText (font=text_box_font)
-text_box.pack(fill="both", expand=True)
 text_box.insert  ("insert", "Nothing to say...")
+text_box.pack(fill="both", expand=True)
 
 
 def main():
