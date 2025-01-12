@@ -141,7 +141,7 @@ class Beolingus:
     def show_entry (self, entry):
         res = ""
         res += entry[0] +"\n"
-        res += entry[1] + "\n\n"
+        res += "==> "+ entry[1] + "\n\n"
         return res
 
     def show_query (self, word, de, en, first, apart, ignorecase):
