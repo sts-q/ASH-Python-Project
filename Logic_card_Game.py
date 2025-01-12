@@ -11,9 +11,9 @@ root.title("Anki Flashcards")
 root.geometry("500x400")
 root.minsize(200, 150)
 
-custom_font = Font(file="Minecraft.ttf", family="Minecraft")
-fontL = tkFont.Font(family="Minecraft", size=24)
-fontM = tkFont.Font(family="Minecraft", size=18)
+custom_font = Font(family="Times")
+fontL = tkFont.Font(family="Times", size=24)
+fontM = tkFont.Font(family="Times", size=18)
 
 page_main = Frame(root)
 page_game = Frame(root)
