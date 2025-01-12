@@ -21,7 +21,7 @@ class Config:
                  print ("--- config load failed: ", self.file)
         else: print ("--- config file not found:", self.file)
 
-    def get (self, section, key, default=None):
+    def get (self, section, key, default):
         res = default
         if self.parser:
             if self.parser.has_section (section):
@@ -31,9 +31,9 @@ class Config:
         else: print ("--- config: parser == None")
         return res
 
-    def getint (self, section, key, default = None):
+    def getint (self, section, key, default):
         res = default
-        v = self.get (section, key)
+        v = self.get (section, key, default)
         if v:
             try: res = int(v)
             except: print ("--- config: not an integer")
