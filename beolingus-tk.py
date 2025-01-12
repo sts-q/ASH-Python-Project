@@ -5,19 +5,21 @@
 # * a lot
 # parse config (ini)
 
-import configparser
 import tkinter
 import tkinter.scrolledtext
 
 from beolingus import Beolingus
+import config
 
-win_title      = "ASHcards beoDict"
-win_width      = 1250
-win_height     = 350
-win_xpos       = 1300
-win_ypos       =  420
-win_width_min  = 600
-win_height_min = 150
+cfg = config.Config ("config.ini")
+
+win_title      = cfg.get ("beodict", "win_title", "<TITLE>")
+win_width      = cfg.getint ("beodict", "win_width", 500)
+win_height     = cfg.getint ("beodict", "win_height", 500)
+win_xpos       = cfg.getint ("beodict", "win_xpos",   0)
+win_ypos       = cfg.getint ("beodict", "win_ypos",   0)
+win_width_min  = cfg.getint ("beodict", "win_width_min", 600)
+win_height_min = cfg.getint ("beodict", "win_height_min", 150)
 entry_font   = ("Courier",         18, "normal")
 button_font  = ("Arial",           18, "bold")
 message_font = ("Times New Roman", 16, "normal")
