@@ -18,7 +18,7 @@ fontL = tkFont.Font(family="Times", size=20)
 fontM = tkFont.Font(family="Times", size=15)
 
 # Load the background image
-background_image_path = r"C:\Users\hp\Downloads\ASH-project\Final_Card_Font.jpg"
+background_image_path = r"Final_Card_Font.jpg"
 background_image = Image.open(background_image_path)
 background_image = background_image.resize((500, 400), Image.Resampling.LANCZOS)  # Resize to fit the window
 bg_image_tk = ImageTk.PhotoImage(background_image)

@@ -9,3 +9,4 @@
  - quiz mode game
  - add importance and fun factors to the card
  - Challenge: The card GUI is unclear for few words 
+ - Issue: The card data updates regardless of the user's choice

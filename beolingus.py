@@ -74,7 +74,7 @@ class Beolingus:
 
     def do_load(self):
         self.dict = []
-        with open (self.file, "r") as f:
+        with open (self.file, "r", encoding='utf-8') as f:
            for l in f:
                if not l.startswith ("# "):      # ignore dictionary files comments
                    pos = l.find (" :: ")        # ' :: ' separates de and en
@@ -180,18 +180,18 @@ class Beolingus:
 
 def main():
         print ("============  beolingus")
-        dict = Beolingus()
-        dict.dump()
-        print()
-        dict.info ("Sehnsucht", de = True, ignorecase=False)
-        dict.info ("Sehnsucht", de = True, apart=True, ignorecase=False)
-        dict.info ("Sehnsucht", de = True, first=True, ignorecase=False)
-        dict.info ("Desire", de=False, ignorecase=False)
-        dict.info ("Desire", apart=True)
-        dict.info ("Desire", first=True)
-        dict.info ("Desire", ignorecase=False)
-        dict.info ("Desire", first=True, apart=True)
-        print()
+        # dict = Beolingus()
+        # dict.dump()
+        # print()
+        # dict.info ("Sehnsucht", de = True, ignorecase=False)
+        # dict.info ("Sehnsucht", de = True, apart=True, ignorecase=False)
+        # dict.info ("Sehnsucht", de = True, first=True, ignorecase=False)
+        # dict.info ("Desire", de=False, ignorecase=False)
+        # dict.info ("Desire", apart=True)
+        # dict.info ("Desire", first=True)
+        # dict.info ("Desire", ignorecase=False)
+        # dict.info ("Desire", first=True, apart=True)
+        # print()
         print ("============  done")
 
 
