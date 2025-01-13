@@ -14,6 +14,12 @@ from beolingus import Beolingus
 b = Beolingus()
 print("check ->")
 b.check()
-print("info ->")
-b.info("Haus")
-print("show query ->", b.show_query("Haus", de=True, en=True, first=False, apart=False, ignorecase=True))
+# print("info ->")
+# b.info("Haus")
+# print("show query ->", b.show_query("Haus", de=True, en=True, first=False, apart=False, ignorecase=True))
+# print(b.dict[10][0])
+# print(b.dict[10][1])
+print("show query ->")
+
+#to get reduced and only relevant responses matching only the first word instead of every subsequence in all words
+print(b.show_query("Einfach", de=True, en=True, first=True, apart=True, ignorecase=True)) 
