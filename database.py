@@ -21,7 +21,7 @@ class Database:
         except Exception as e:
             print(e)
     
-    def add_word(self, German, English):
+    def add_word(self, German, English, desc=None):
         if self.data:
             self.data.append({
                 "id": len(self.data),  # This is a potential issue if cards are removed!

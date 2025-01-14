@@ -71,10 +71,10 @@ def check_answer(selected_option):
     global current_card
 
     if selected_option == current_card['English']:  # Check against the correct answer (English meaning)
-        feedback_label.config(text="Congratulations, Correct Answer", fg="green")
+        feedback_label.config(text="Congratulations, Correct Answer", fg="green", bg="#ffffff")
         db.update_score(current_card['id'], score=1)  # Increment score by 1 for correct answer
     else:
-        feedback_label.config(text="Wrong Answer. Try Again!", fg="red")
+        feedback_label.config(text="Wrong Answer. Try Again!", fg="red", bg="#ffffff")
         db.update_score(current_card['id'], score=-1)  # Decrement score by 1 for wrong answer
 
     # Delay before loading the next card
@@ -110,7 +110,7 @@ option_buttons = [Button(canvas_game, text="", font=fontM, bg="#ffffff") for _ i
 for idx, btn in enumerate(option_buttons):
     canvas_game.create_window(250, 150 + idx* 40, window=btn)
 
-feedback_label = Label(canvas_game, text="", font=fontM, fg='red', bg="#ffffff")
+feedback_label = Label(canvas_game, text="", font=fontM, fg='red', bg="#5c0001")
 canvas_game.create_window(250, 310, window=feedback_label)
 
 button_back = Button(canvas_game, text="Back to Menu", font=fontM, command=show_main_menu, bg="#ffffff")
