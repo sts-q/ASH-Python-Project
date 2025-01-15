@@ -20,9 +20,10 @@ fontM = tkFont.Font(family="Times", size=15)
 # Load the background image
 background_image_path = r"Final_Card_Font.jpg"
 background_image = Image.open(background_image_path)
-background_image = background_image.resize((500, 400), Image.Resampling.LANCZOS)  # Resize to fit the window
+background_image = background_image.resize((500, 400))  # Resize to fit the window
 bg_image_tk = ImageTk.PhotoImage(background_image)
 
+canvas_image = None
 # Frames for pages
 page_main = Frame(root)
 page_game = Frame(root)
@@ -40,6 +41,32 @@ def start_game():
     page_main.pack_forget()
     page_game.pack(expand=True)
     load_next_card()
+
+def update_button_positions(event):
+    # Get the current size of the canvas
+    canvas_width = event.width
+    canvas_height = event.height
+
+    # Calculate the positions of the buttons as fractions of canvas size
+    canvas_game.create_window(canvas_width * 0.25, canvas_height * 0.25, window=option_buttons[0])
+    canvas_game.create_window(canvas_width * 0.75, canvas_height * 0.25, window=option_buttons[1])
+    canvas_game.create_window(canvas_width * 0.25, canvas_height * 0.75, window=option_buttons[2])
+    canvas_game.create_window(canvas_width * 0.75, canvas_height * 0.75, window=option_buttons[3])
+
+    update_image_scale(event)
+
+def update_image_scale(event):
+    global canvas_image
+    # print("Image scale updated")
+    canvas_width = event.width
+    canvas_height = event.height
+
+    # Resize the image to fit the canvas
+    bg_image_resized = background_image.resize((canvas_width, canvas_height))
+    bg_image_tk = ImageTk.PhotoImage(bg_image_resized)
+    canvas_game.create_image(0, 0, anchor=NW, image=bg_image_tk)
+    canvas_image = bg_image_tk
+
 
 def load_next_card():
     global current_card, options
@@ -100,7 +127,7 @@ canvas_game = Canvas(page_game, width=1800, height=1200)
 canvas_game.pack(fill="both", expand=True)
 
 # Add the background image to the canvas
-canvas_game.create_image(0, 0, anchor=NW, image=bg_image_tk)
+canvas_image = canvas_game.create_image(0, 0, anchor=NW, image=bg_image_tk)
 
 # Place widgets over the canvas
 word_label = Label(canvas_game, text="", font=fontL, fg='black', bg="#ffffff")
@@ -116,6 +143,11 @@ canvas_game.create_window(250, 310, window=feedback_label)
 button_back = Button(canvas_game, text="Back to Menu", font=fontM, command=show_main_menu, bg="#ffffff")
 canvas_game.create_window(250, 350, window=button_back)
 
+# Update button positions when the window is resized
+# canvas_game.bind("<Configure>", update_image_scale)
+canvas_game.bind("<Configure>", update_button_positions)
+
 # Initial Setup
 show_main_menu()
+# update_button_positions(None)
 root.mainloop()
