@@ -10,17 +10,27 @@ db = Database("temp_dataset.json")  # Use your dataset here
 # Initialize Tkinter
 root = Tk()
 root.title("Anki Flashcards")
-root.geometry("500x400")  # Window size is fixed to 500x400
+root.geometry("1280x720")  # Window size is fixed to 500x400
 root.minsize(200, 150)
 
 custom_font = Font(family="Times")
 fontL = tkFont.Font(family="Times", size=20)
 fontM = tkFont.Font(family="Times", size=15)
 
+style = ttk.Style()
+style.configure("Rounded.TButton", 
+                borderwidth=1, 
+                relief="solid", 
+                padding=10,
+                background="#cc0000", 
+                font=(fontM, 12),
+                foreground="black",
+                )
+
 # Load the background image
 background_image_path = r"Final_Card_Font.jpg"
 background_image = Image.open(background_image_path)
-background_image = background_image.resize((500, 400))  # Resize to fit the window
+background_image = background_image.resize((1280, 720))  # Resize to fit the window
 bg_image_tk = ImageTk.PhotoImage(background_image)
 
 canvas_image = None
@@ -42,31 +52,51 @@ def start_game():
     page_game.pack(expand=True)
     load_next_card()
 
-def update_button_positions(event):
-    # Get the current size of the canvas
-    canvas_width = event.width
-    canvas_height = event.height
+# def update_button_positions(event):
+#     # Get the current size of the canvas
+#     canvas_width = event.width
+#     canvas_height = event.height
 
-    # Calculate the positions of the buttons as fractions of canvas size
-    canvas_game.create_window(canvas_width * 0.25, canvas_height * 0.25, window=option_buttons[0])
-    canvas_game.create_window(canvas_width * 0.75, canvas_height * 0.25, window=option_buttons[1])
-    canvas_game.create_window(canvas_width * 0.25, canvas_height * 0.75, window=option_buttons[2])
-    canvas_game.create_window(canvas_width * 0.75, canvas_height * 0.75, window=option_buttons[3])
+#     # Calculate the positions of the buttons as fractions of canvas size
+#     canvas_game.create_window(canvas_width * 0.25, canvas_height * 0.25, window=option_buttons[0])
+#     canvas_game.create_window(canvas_width * 0.75, canvas_height * 0.25, window=option_buttons[1])
+#     canvas_game.create_window(canvas_width * 0.25, canvas_height * 0.75, window=option_buttons[2])
+#     canvas_game.create_window(canvas_width * 0.75, canvas_height * 0.75, window=option_buttons[3])
 
-    update_image_scale(event)
+#     update_image_scale(event)
 
-def update_image_scale(event):
+# def update_image_scale(event):
+#     global canvas_image
+#     # print("Image scale updated")
+#     canvas_width = event.width
+#     canvas_height = event.height
+
+#     # Resize the image to fit the canvas
+#     bg_image_resized = background_image.resize((canvas_width, canvas_height))
+#     bg_image_tk = ImageTk.PhotoImage(bg_image_resized)
+#     canvas_game.create_image(0, 0, anchor=NW, image=bg_image_tk)
+#     canvas_image = bg_image_tk
+
+def update_canvas_binding(event):
     global canvas_image
     # print("Image scale updated")
     canvas_width = event.width
     canvas_height = event.height
+
+    canvas_game.create_window(canvas_width * 0.35, canvas_height * 0.35, window=option_buttons[0])
+    canvas_game.create_window(canvas_width * 0.65, canvas_height * 0.35, window=option_buttons[1])
+    canvas_game.create_window(canvas_width * 0.35, canvas_height * 0.65, window=option_buttons[2])
+    canvas_game.create_window(canvas_width * 0.65, canvas_height * 0.65, window=option_buttons[3])
+
+    canvas_game.create_window(canvas_width * 0.50, canvas_height * 0.10, window=word_label)
+    canvas_game.create_window(canvas_width * 0.50, canvas_height * 0.80, window=feedback_label)
+    canvas_game.create_window(canvas_width * 0.50, canvas_height * 0.85, window=button_back)
 
     # Resize the image to fit the canvas
     bg_image_resized = background_image.resize((canvas_width, canvas_height))
     bg_image_tk = ImageTk.PhotoImage(bg_image_resized)
     canvas_game.create_image(0, 0, anchor=NW, image=bg_image_tk)
     canvas_image = bg_image_tk
-
 
 def load_next_card():
     global current_card, options
@@ -116,7 +146,7 @@ frame_main_bottom.pack(expand=True, fill='both', side='bottom')
 label_main = Label(frame_main_top, text="Anki Flashcards", font=fontL, fg='blue', bg='white')
 label_main.pack(expand=True, anchor='center')
 
-button_start = Button(frame_main_bottom, text="Start Game", font=fontM, command=start_game)
+button_start = ttk.Button(frame_main_bottom, text="Start Game",  command=start_game, style="Rounded.TButton")
 button_start.pack(expand=True, anchor='center')
 
 button_exit = Button(frame_main_bottom, text="Exit", font=fontM, command=root.quit)
@@ -145,7 +175,7 @@ canvas_game.create_window(250, 350, window=button_back)
 
 # Update button positions when the window is resized
 # canvas_game.bind("<Configure>", update_image_scale)
-canvas_game.bind("<Configure>", update_button_positions)
+canvas_game.bind("<Configure>", update_canvas_binding)
 
 # Initial Setup
 show_main_menu()

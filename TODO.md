@@ -10,8 +10,8 @@
  - add importance and fun factors to the card
  
  - Issue: The card data updates regardless of the user's choice (Shivang)
- - Issue: Make options view in a 2x2 grid (Shivang)
- - Issue: Make background scale with window (Shivang)
+ + Issue: Make options view in a 2x2 grid (Shivang)
+ + Issue: Make background scale with window (Shivang)
  - Task: New add word page (Heiko)
  - Task: Add "word name" to remove card method's parameters in database (Shivang) 
  - Task: New remove word page (Alam)
@@ -22,6 +22,6 @@
  - Task: Update Notebook (Hanif)
  - Task: Make ppt (Hanif)
  - Task: present ppt (Alam)
-
+ - Task: Update Styles (Shivang)
 
 
