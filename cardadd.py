@@ -17,6 +17,7 @@ A card holds data for a words
 # TODO: ??? Check input for what: only ASCII? No!
 
 
+data_file = "temp_dataset.json"
 from database import Database
 
 
@@ -27,7 +28,6 @@ def check (db, de, en):
         Return word ID if found.
         Return None if not found.
         """
-
         id = None
         for w in db.data:
             if w["German"] == de:
@@ -38,10 +38,8 @@ def check (db, de, en):
                 break
         return id
 
-def add_word (dataset_filename):
-        """Add a word to dataset."""
-
-        db = Database (dataset_filename)
+def add_word (db):
+        """Add a word to database."""
         de   = input ("german word:  ")
         en   = input ("english word: ")
         desc = input ("description:  ")
@@ -52,7 +50,8 @@ def add_word (dataset_filename):
         db.save()
 
 def main():
-        add_word ("temp_dataset.json")
+        db = Database (data_file)
+        add_word (db)
 
 
 if __name__ == "__main__":
