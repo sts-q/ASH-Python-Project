@@ -74,11 +74,15 @@ class Page:
 
     def show_page_cmd (self):
         print ("--- show_page_cmd")
-#         img = PIL.Image.open ("Final_Card_Font.jpg")
-#         img = PIL.ImageTk.PhotoImage (img.resize ((600,600)))
-#         bg_image_label  = Label (self.root, image=img)
+        img = PIL.Image.open ("Final_Card_Font.jpg")
+        img = PIL.ImageTk.PhotoImage (img.resize ((600,600)))
+        bg_image_label  = Label (self.root, image=img)
+        bg_image_label.image = img
+#         bg_image_label  = Label (f, image=img)
 #         bg_image_label.place (relx=0.5, rely=0.5, anchor="center")
+#         self.image = bg_image_label
         f = Frame (self.root)
+        f.configure (background = "brown", padx=50, pady=50)
         mess_headline   = Label (f, text="Add a card.", font=message_font)
         mess_de         = Label (f, text="German",      font=message_font)
         mess_en         = Label (f, text="English",     font=message_font)
@@ -100,7 +104,7 @@ class Page:
         button_back.pack()
         self.mess_err.pack()
         self.page_main.pack_forget()
-        f.pack(expand=True)
+        f.pack(expand=True, fill="both")
         self.page_addcard = f
         self.entry_de.bind   ("<Return>", self.add_word_event)
         self.entry_en.bind   ("<Return>", self.add_word_event)
