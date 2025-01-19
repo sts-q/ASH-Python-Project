@@ -74,10 +74,11 @@ class Page:
 
     def show_page_cmd (self):
         print ("--- show_page_cmd")
-        img = PIL.Image.open ("Final_Card_Font.jpg")
-        img = PIL.ImageTk.PhotoImage (img.resize ((300,300)))
+#         img = PIL.Image.open ("Final_Card_Font.jpg")
+#         img = PIL.ImageTk.PhotoImage (img.resize ((600,600)))
+#         bg_image_label  = Label (self.root, image=img)
+#         bg_image_label.place (relx=0.5, rely=0.5, anchor="center")
         f = Frame (self.root)
-        bg_image_label  = Label (f, image=img)
         mess_headline   = Label (f, text="Add a card.", font=message_font)
         mess_de         = Label (f, text="German",      font=message_font)
         mess_en         = Label (f, text="English",     font=message_font)
@@ -88,7 +89,6 @@ class Page:
         self.entry_desc = Entry (f, width=72, font=entry_font)
         button_add      = Button (f, text="Add",  command=self.add_word_cmd)
         button_back     = Button (f, text="Back", command=self.back_cmd)
-        bg_image_label.place (relx=0.5, rely=0.5, anchor="center")
         mess_headline.pack()
         mess_de.pack(anchor="w")
         self.entry_de.pack(side="top", anchor="w")
