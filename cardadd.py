@@ -15,12 +15,12 @@ A card holds data for a words
 # TODO: Add card with tkinter instead of from terminal.
 # TODO: Integrate into main.
 # TODO: ??? Check input for what: only ASCII? No!
+# TODO: back via escape?
 
 from tkinter import *
 from tkinter import ttk
+import PIL
 
-data_file = "temp_dataset.json"
-from database import Database
 
 entry_font   = ("Courier",         18, "normal")
 message_font = ("Times New Roman", 16, "normal")
@@ -48,17 +48,6 @@ def check_word (word):
             res = None
         return res
 
-def add_word (db):
-        """Add a word to database."""
-        de   = input ("german word:  ")
-        en   = input ("english word: ")
-        desc = input ("description:  ")
-        id = check (db, de, en)
-        if id == None:
-            db.add_word (de, en, desc)
-        else: print ("Word is allready in dataset. ID =", id)
-        db.save()
-
 def set_entry_text (e, text):
     e.delete (0,"end")
     e.insert (0,text)
@@ -66,35 +55,29 @@ def set_entry_text (e, text):
 def label_say (label, mess):
         label.config (text=mess)
 
-# entry_de   = tkinter.Entry (width=32, font=entry_font)
-# entry_en   = tkinter.Entry (width=32, font=entry_font)
-# entry_desc = tkinter.Entry (width=72, font=entry_font)
-# set_entry_text (word_entry, word_hist[word_hist_index])
-# word_entry.bind ("<Return>", go_on_return)
-# word_entry.bind ("<Up>",     entry_up)
-# word_entry.bind ("<Down>",   entry_down)
-# entry_de.pack(side="top", anchor="w")
-# entry_en.pack(side="top", anchor="w")
-# entry_desc.pack(side="top", anchor="w")
-
 
 class Page:
     db           = None
     page_addcard = None
     page_main    = None
     root         = None
+    image        = None
 
     # To frame_main_bottom add a button, that invokes adding a card
     def __init__ (self, frame_main_bottom, page_main, root, bg_image, db):
         self.db        = db
         self.page_main = page_main
         self.root      = root
+        self.image     = bg_image
         button_cardadd = Button (frame_main_bottom, text="Add card", command=self.show_page_cmd)
         button_cardadd.pack()
 
     def show_page_cmd (self):
         print ("--- show_page_cmd")
+        img = PIL.Image.open ("Final_Card_Font.jpg")
+        img = PIL.ImageTk.PhotoImage (img.resize ((300,300)))
         f = Frame (self.root)
+        bg_image_label  = Label (f, image=img)
         mess_headline   = Label (f, text="Add a card.", font=message_font)
         mess_de         = Label (f, text="German",      font=message_font)
         mess_en         = Label (f, text="English",     font=message_font)
@@ -105,9 +88,7 @@ class Page:
         self.entry_desc = Entry (f, width=72, font=entry_font)
         button_add      = Button (f, text="Add",  command=self.add_word_cmd)
         button_back     = Button (f, text="Back", command=self.back_cmd)
-        self.entry_de.bind   ("<Return>", self.add_word_event)
-        self.entry_en.bind   ("<Return>", self.add_word_event)
-        self.entry_desc.bind ("<Return>", self.add_word_event)
+        bg_image_label.place (relx=0.5, rely=0.5, anchor="center")
         mess_headline.pack()
         mess_de.pack(anchor="w")
         self.entry_de.pack(side="top", anchor="w")
@@ -121,6 +102,9 @@ class Page:
         self.page_main.pack_forget()
         f.pack(expand=True)
         self.page_addcard = f
+        self.entry_de.bind   ("<Return>", self.add_word_event)
+        self.entry_en.bind   ("<Return>", self.add_word_event)
+        self.entry_desc.bind ("<Return>", self.add_word_event)
 
     def add_word_cmd(self):
         de   = self.entry_de.get ()
@@ -168,6 +152,22 @@ class Page:
 #     def tab_cmd(self, event):
 #         (self.next_tab (self.root.focus())).focus()
 
+
+# -----------------------------------------------------------------------------
+# test add card via terminal
+data_file = "temp_dataset.json"
+from database import Database
+
+def add_word (db):
+        """Add a word to database."""
+        de   = input ("german word:  ")
+        en   = input ("english word: ")
+        desc = input ("description:  ")
+        id = check (db, de, en)
+        if id == None:
+            db.add_word (de, en, desc)
+        else: print ("Word is allready in dataset. ID =", id)
+        db.save()
 
 def main():
         db = Database (data_file)
