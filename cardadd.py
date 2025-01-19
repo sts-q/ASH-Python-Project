@@ -12,18 +12,28 @@ A card holds data for a words
 """
 
 
-# TODO: Add card with tkinter instead of from terminal.
-# TODO: Integrate into main.
 # TODO: ??? Check input for what: only ASCII? No!
-# TODO: back via escape?
+# TODO: enter -> next entry or add
+# TODO: pick color from image
+
 
 from tkinter import *
 from tkinter import ttk
 import PIL
 
+import config
 
-entry_font   = ("Courier",         18, "normal")
-message_font = ("Times New Roman", 16, "normal")
+cfg = config.Config ("config.ini")
+
+sec = "default"
+headline_font = (cfg.get (sec, "headline_font","Courier"), cfg.get (sec, "headline_font_size", 14), "normal")
+text_font     = (cfg.get (sec, "text_font",    "Courier"), cfg.get (sec, "text_font_size",     14), "normal")
+entry_font    = (cfg.get (sec, "entry_font",   "Courier"), cfg.get (sec, "entry_font_size",    14), "normal")
+button_font   = (cfg.get (sec, "button_font",  "Courier"), cfg.get (sec, "button_font_size",   14), "normal")
+
+button_bg = cfg.get (sec, "button_bg", "brown")
+label_bg  = cfg.get (sec, "text_bg", "brown")
+
 
 # This function might be moved into class database.Database
 def check (db, de, en):
@@ -74,6 +84,7 @@ class Page:
 
     def show_page_cmd (self):
         print ("--- show_page_cmd")
+
         img = PIL.Image.open ("Final_Card_Font.jpg")
         img = PIL.ImageTk.PhotoImage (img.resize ((600,600)))
         bg_image_label  = Label (self.root, image=img)
@@ -81,34 +92,45 @@ class Page:
 #         bg_image_label  = Label (f, image=img)
 #         bg_image_label.place (relx=0.5, rely=0.5, anchor="center")
 #         self.image = bg_image_label
+
         f = Frame (self.root)
         f.configure (background = "brown", padx=50, pady=50)
-        mess_headline   = Label (f, text="Add a card.", font=message_font)
-        mess_de         = Label (f, text="German",      font=message_font)
-        mess_en         = Label (f, text="English",     font=message_font)
-        mess_desc       = Label (f, text="Description", font=message_font)
-        self.mess_err   = Label (f, text="<>",          font=message_font)
+        mess_headline   = Label (f, text="Add a card.", font=headline_font, bg=label_bg)
+        mess_de         = Label (f, text="German",      font=text_font, bg=label_bg)
+        mess_en         = Label (f, text="English",     font=text_font, bg=label_bg)
+        mess_desc       = Label (f, text="Description", font=text_font, bg=label_bg)
+        self.mess_err   = Label (f, text="<>",          font=text_font, bg=label_bg)
         self.entry_de   = Entry (f, width=32, font=entry_font)
         self.entry_en   = Entry (f, width=32, font=entry_font)
         self.entry_desc = Entry (f, width=72, font=entry_font)
-        button_add      = Button (f, text="Add",  command=self.add_word_cmd)
-        button_back     = Button (f, text="Back", command=self.back_cmd)
+        button_add      = Button (f, text="Add",  command=self.add_word_cmd, font=button_font, bg=button_bg)
+        button_back     = Button (f, text="Back", command=self.back_cmd,     font=button_font, bg=button_bg)
+
         mess_headline.pack()
-        mess_de.pack(anchor="w")
-        self.entry_de.pack(side="top", anchor="w")
-        mess_en.pack(anchor="w")
-        self.entry_en.pack(side="top", anchor="w")
-        mess_desc.pack(anchor="w")
-        self.entry_desc.pack(side="top", anchor="w")
+        mess_de.pack (anchor="w")
+        self.entry_de.pack (side="top", anchor="w")
+        mess_en.pack (anchor="w")
+        self.entry_en.pack (side="top", anchor="w")
+        mess_desc.pack (anchor="w")
+        self.entry_desc.pack (side="top", anchor="w")
         button_add.pack()
         button_back.pack()
         self.mess_err.pack()
         self.page_main.pack_forget()
-        f.pack(expand=True, fill="both")
-        self.page_addcard = f
+        f.pack (expand=True, fill="both")
+
         self.entry_de.bind   ("<Return>", self.add_word_event)
         self.entry_en.bind   ("<Return>", self.add_word_event)
         self.entry_desc.bind ("<Return>", self.add_word_event)
+        self.entry_de.bind   ("<Escape>", self.back_event)
+        self.entry_en.bind   ("<Escape>", self.back_event)
+        self.entry_desc.bind ("<Escape>", self.back_event)
+        button_add.bind      ("<Escape>", self.back_event)
+        button_back.bind     ("<Escape>", self.back_event)
+
+        self.entry_de.focus()
+        self.page_addcard = f
+
 
     def add_word_cmd(self):
         de   = self.entry_de.get ()
@@ -133,7 +155,6 @@ class Page:
             set_entry_text (self.entry_en, "")
             set_entry_text (self.entry_desc, "")
             self.entry_de.focus()
-            print ("--- add_word_cmd: done")
         else: print ("--- add_word_cmd: strange input or word already in dataset")
 
     def add_word_event (self, event):
@@ -143,6 +164,10 @@ class Page:
         print ("--- cmd: back")
         self.page_addcard.pack_forget()
         self.page_main.pack(expand=True)
+
+    def back_event (self, event):
+        print ("--- back_event")
+        self.back_cmd()
 
 #     def next_tab (self, w):
 #         res = None
